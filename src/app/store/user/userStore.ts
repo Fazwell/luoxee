@@ -9,8 +9,8 @@ export interface User {
   role: string;
   isVerified: boolean;
   profilePicture?: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: String;
+  updatedAt: String;
 }
 
 interface UserState {
