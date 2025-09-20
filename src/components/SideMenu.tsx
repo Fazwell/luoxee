@@ -7,7 +7,7 @@ import Link from "next/link"
 const SideMenuItems = {
   Home: "/",
   Store: "/store",
-  Account: "/account",
+  Account: "/account/overview",
   Cart: "/cart",
 }
 
