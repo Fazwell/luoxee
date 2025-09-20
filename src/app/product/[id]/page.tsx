@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-
+import Image from "next/image";
 // Mock product data
 const mockProduct = {
   id: "1",
@@ -44,7 +44,7 @@ export default function ProductPage() {
         {/* Left: Product Image */}
         <div className="space-y-4">
           <div className="bg-neutral-900 rounded-xl p-6 flex items-center justify-center">
-            <img
+            <Image
               src={selectedImage}
               alt={mockProduct.name}
               className="w-full max-w-sm object-contain"
@@ -63,7 +63,7 @@ export default function ProductPage() {
                     : "border-neutral-700"
                 }`}
               >
-                <img src={img} alt="thumb" className="w-16 h-16 object-contain" />
+                <Image src={img} alt="thumb" className="w-16 h-16 object-contain" />
               </button>
             ))}
           </div>
@@ -138,7 +138,7 @@ export default function ProductPage() {
               key={product.id}
               className="bg-neutral-900 p-4 rounded-lg hover:shadow-lg transition"
             >
-              <img
+              <Image
                 src={product.image}
                 alt={product.name}
                 className="w-full h-40 object-contain mb-3"

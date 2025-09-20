@@ -132,6 +132,10 @@ export default function CartSidebar({
                     <span>{shipping}</span>
                   </div>
                   <div className="flex justify-between font-semibold">
+                    <span>Subtotal</span>
+                    <span>{subtotal}</span>
+                  </div>
+                  <div className="flex justify-between font-semibold">
                     <span>Total</span>
                     <span>{total}</span>
                   </div>
