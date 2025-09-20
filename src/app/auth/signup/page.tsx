@@ -5,20 +5,19 @@ import { useUserStore } from "@/app/store/user/userStore";
 import { User } from "@/app/store/user/userStore";
 
 export default function SignupPage() {
-  const [form, setForm] = useState({ 
-    name: "", 
-    email: "", 
-    password: "", 
-    phone: "" 
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+    phone: "",
   });
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
+  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const setUser = useUserStore((state) => state.setUser);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
-    // Clear message when user starts typing
-    if (message) setMessage(null);
+    if (message) setMessage(null); // Clear message on typing
   };
 
   const validateForm = () => {
@@ -37,32 +36,30 @@ export default function SignupPage() {
 
     const validationError = validateForm();
     if (validationError) {
-      setMessage({ type: 'error', text: validationError });
+      setMessage({ type: "error", text: validationError });
       setLoading(false);
       return;
     }
 
     try {
-      const res = await fetch("/api/auth/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
+      // ✅ Instead of calling a real API, mock a response
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // simulate network delay
 
-      const data = await res.json();
+      const mockUser: User = {
+        id: "1",
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        role: "customer",
+      };
 
-      if (res.ok) {
-        setMessage({ type: 'success', text: data.message });
-        if (data.user) {
-          setUser(data.user as User);
-        }
-        // Reset form on success
-        setForm({ name: "", email: "", password: "", phone: "" });
-      } else {
-        setMessage({ type: 'error', text: data.error || 'Something went wrong' });
-      }
+      setUser(mockUser);
+      setMessage({ type: "success", text: "Account created successfully!" });
+
+      // Reset form
+      setForm({ name: "", email: "", password: "", phone: "" });
     } catch (error) {
-      setMessage({ type: 'error', text: 'Network error. Please try again.' });
+      setMessage({ type: "error", text: "Something went wrong. Please try again." });
     } finally {
       setLoading(false);
     }
@@ -73,59 +70,61 @@ export default function SignupPage() {
       <div className="w-full max-w-md bg-neutral-900 border border-neutral-800 shadow-xl rounded-lg p-8">
         <h2 className="text-3xl font-bold text-center mb-6">Create Account</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <input 
-            name="name" 
-            placeholder="Full Name" 
+          <input
+            name="name"
+            placeholder="Full Name"
             value={form.name}
             onChange={handleChange}
             disabled={loading}
-            className="w-full p-3 rounded bg-neutral-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 disabled:opacity-50" 
-            required 
+            className="w-full p-3 rounded bg-neutral-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 disabled:opacity-50"
+            required
           />
-          <input 
-            name="email" 
-            type="email" 
-            placeholder="Email Address" 
+          <input
+            name="email"
+            type="email"
+            placeholder="Email Address"
             value={form.email}
             onChange={handleChange}
             disabled={loading}
-            className="w-full p-3 rounded bg-neutral-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 disabled:opacity-50" 
-            required 
+            className="w-full p-3 rounded bg-neutral-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 disabled:opacity-50"
+            required
           />
-          <input 
-            name="phone" 
-            placeholder="Phone Number" 
+          <input
+            name="phone"
+            placeholder="Phone Number"
             value={form.phone}
             onChange={handleChange}
             disabled={loading}
-            className="w-full p-3 rounded bg-neutral-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 disabled:opacity-50" 
-            required 
+            className="w-full p-3 rounded bg-neutral-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 disabled:opacity-50"
+            required
           />
-          <input 
-            name="password" 
-            type="password" 
-            placeholder="Password (min 6 characters)" 
+          <input
+            name="password"
+            type="password"
+            placeholder="Password (min 6 characters)"
             value={form.password}
             onChange={handleChange}
             disabled={loading}
-            className="w-full p-3 rounded bg-neutral-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 disabled:opacity-50" 
-            required 
+            className="w-full p-3 rounded bg-neutral-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 disabled:opacity-50"
+            required
           />
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             disabled={loading}
             className="w-full py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 rounded-lg font-semibold transition disabled:cursor-not-allowed"
           >
             {loading ? "Creating Account..." : "Sign Up"}
           </button>
         </form>
-        
+
         {message && (
-          <div className={`mt-4 text-center text-sm p-3 rounded ${
-            message.type === 'success' 
-              ? 'bg-green-900/50 text-green-300 border border-green-600/50' 
-              : 'bg-red-900/50 text-red-300 border border-red-600/50'
-          }`}>
+          <div
+            className={`mt-4 text-center text-sm p-3 rounded ${
+              message.type === "success"
+                ? "bg-green-900/50 text-green-300 border border-green-600/50"
+                : "bg-red-900/50 text-red-300 border border-red-600/50"
+            }`}
+          >
             {message.text}
           </div>
         )}
